@@ -1,0 +1,19 @@
+---
+- name: Check if a directory exists
+  hosts: all
+  tasks:
+    - name: Check for the existence of a directory
+      stat:
+        path: /var/log/  # Update this path to the directory you want to check
+      register: directory_stat
+
+    - name: Print message if directory exists
+      debug:
+        msg: "Directory exists."
+      when: directory_stat.stat.exists and directory_stat.stat.isdir
+
+    - name: Print message if directory does not exist
+      debug:
+        msg: "Directory does not exist."
+      when: not directory_stat.stat.exists or not directory_stat.stat.isdir
+
